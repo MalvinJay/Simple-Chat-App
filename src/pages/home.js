@@ -1,10 +1,10 @@
 import React from 'react'
-import ChatUI from '../components/ChatUI'
+import Chat from '../components/Chat'
 
-const home = () => {
+const home = ({ socket }) => {
   return (
-    <div className='container mx-auto'>
-        <ChatUI />
+    <div className=''> {/* container mx-auto */}
+      <Chat socket={socket} />
     </div>
   )
 }
