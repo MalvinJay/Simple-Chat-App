@@ -9,11 +9,13 @@ const ChatUI = ({ socket }) => {
   const navigate = useNavigate();
   const [room, setRoom] = useLocalStorage("room", "");
   const [id, setId] = useLocalStorage("id", "");
-
-  const [messages, setMessages] = useState([]);
   const [typingStatus, setTypingStatus] = useState("");
-
   const lastMessageRef = useRef(null);
+
+  let cachedMessages = localStorage.getItem('messages');
+  if (!cachedMessages || cachedMessages === '[object object]') localStorage.setItem('messages', `[]`);
+
+  const [messages, setMessages] = useState(JSON.parse(cachedMessages) ?? []);
 
   const logOut = () => {
     socket.disconnect();
@@ -25,7 +27,9 @@ const ChatUI = ({ socket }) => {
 
   useEffect(() => {
     socket.on("messageResponse", (data) => {
-      setMessages([...messages, data]);
+      const updatedMessageLog = [...messages, data];
+      setMessages(updatedMessageLog);
+      localStorage.setItem('messages', JSON.stringify(updatedMessageLog));
     });
   }, [socket, messages]);
 
