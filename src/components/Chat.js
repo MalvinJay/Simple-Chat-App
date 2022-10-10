@@ -21,6 +21,7 @@ const ChatUI = ({ socket }) => {
     socket.disconnect();
     setRoom("");
     setId("");
+    localStorage.clear();
     navigate("/login");
     window.location.reload();
   };
